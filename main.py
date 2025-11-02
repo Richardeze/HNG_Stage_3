@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from habit_manager import get_user_habits_with_quote, create_user_habit
-from database import mark_habit_done
+from database import mark_habit_done, create_table
 import os
 
 app = Flask(__name__)
+create_table()
 
 @app.route("/habits/<username>", methods=["GET"])
 def list_habits(username):
