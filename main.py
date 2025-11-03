@@ -62,7 +62,7 @@ def a2a_habits():
                 }), 400
             result, _ = create_user_habit(username, habit_name, frequency)
 
-        elif method == "habits/done":
+        elif method == "habits/mark_done":
             habit_name = params.get("habit")
             if not habit_name:
                 return jsonify({
