@@ -94,7 +94,7 @@ def a2a_habits():
             "error": {"code": -32603, "message": "Internal error", "data": str(e)}
         }), 500
 
-@app.route("/habits/<username>/done", methods=["POST"])
+@app.route("/habits/<username>/mark_done", methods=["POST"])
 def mark_done(username):
     data = request.get_json()
     habit = data.get("habit")

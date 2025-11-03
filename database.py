@@ -98,6 +98,15 @@ def get_habits(username):
 
     result = []
     for habit_id, habit, frequency, created_at, last_done in rows:
+        status_icon = ""
+        if last_done:
+            try:
+                last_done_date = datetime.fromisoformat(last_done).date()
+                if last_done_date == date.today():
+                    status_icon = "✅"
+            except ValueError:
+                pass  # In case of invalid timestamp format
+
         if is_habit_due(created_at, frequency, last_done):
             reminder = f"⏰ Reminder: It's time to do your '{habit}' habit ({frequency})."
         else:
