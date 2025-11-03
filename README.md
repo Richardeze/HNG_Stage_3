@@ -44,11 +44,11 @@ ___
 | **GET**  | `/habits/<username>` | Get all habits for a specific user along with a random motivational quote. |
 **A2A (JSON-RPC) Endpoints for Telex**
 
-| Method   | Endpoint           | Method Name     | Description |
-|:----------|:------------------|:----------------|:-------------|
-| **POST** | `/a2a/habits`      | `habits/get`    | Fetch all habits for a given user and return them with a motivational quote. |
-| **POST** | `/a2a/habits`      | `habits/add`    | Add a new habit for a user by passing `username`, `habit`, and `frequency` in `params`. |
-| **POST** | `/a2a/habits`      | `habits/done`   | Mark a specific habit as completed for the user. |
+| Method   | Endpoint           | Method Name        | Description |
+|:----------|:------------------|:-------------------|:-------------|
+| **POST** | `/a2a/habits`      | `habits/get`       | Fetch all habits for a given user and return them with a motivational quote. |
+| **POST** | `/a2a/habits`      | `habits/add`       | Add a new habit for a user by passing `username`, `habit`, and `frequency` in `params`. |
+| **POST** | `/a2a/habits`      | `habits/mark_done` | Mark a specific habit as completed for the user. |
 ___
 ## Example Requests and Responses
 **Add a new Habit**  
