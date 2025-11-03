@@ -22,10 +22,10 @@ def create_habit(username):
 @app.route("/a2a/habits", methods=["POST"])
 def a2a_habits():
     try:
+        # Get the JSON-RPC payload
         body = request.get_json()
 
-        # Basic JSON-RPC validation
-        if body.get("jsonrpc") != "2.0" or "id" not in body or "method" not in body:
+        if not body or body.get("jsonrpc") != "2.0" or "id" not in body or "method" not in body:
             return jsonify({
                 "jsonrpc": "2.0",
                 "id": body.get("id") if body else None,
@@ -33,7 +33,7 @@ def a2a_habits():
                     "code": -32600,
                     "message": "Invalid Request: jsonrpc must be '2.0', id and method are required"
                 }
-            }), 400
+            }), 200  # Note: JSON-RPC spec expects 200 even for errors
 
         rpc_id = body["id"]
         method = body["method"]
@@ -45,9 +45,8 @@ def a2a_habits():
                 "jsonrpc": "2.0",
                 "id": rpc_id,
                 "error": {"code": -32602, "message": "Missing 'username' parameter"}
-            }), 400
+            }), 200
 
-        # Handle methods
         if method == "habits/get":
             result = get_user_habits_with_quote(username)
 
@@ -59,7 +58,7 @@ def a2a_habits():
                     "jsonrpc": "2.0",
                     "id": rpc_id,
                     "error": {"code": -32602, "message": "Missing 'habit' or 'frequency' parameter"}
-                }), 400
+                }), 200
             result, _ = create_user_habit(username, habit_name, frequency)
 
         elif method == "habits/mark_done":
@@ -69,7 +68,7 @@ def a2a_habits():
                     "jsonrpc": "2.0",
                     "id": rpc_id,
                     "error": {"code": -32602, "message": "Missing 'habit' parameter"}
-                }), 400
+                }), 200
             message = mark_habit_done(username, habit_name)
             result = {"message": message}
 
@@ -78,9 +77,8 @@ def a2a_habits():
                 "jsonrpc": "2.0",
                 "id": rpc_id,
                 "error": {"code": -32601, "message": f"Method '{method}' not found"}
-            }), 404
+            }), 200
 
-        # Return JSON-RPC response
         return jsonify({
             "jsonrpc": "2.0",
             "id": rpc_id,
@@ -92,7 +90,7 @@ def a2a_habits():
             "jsonrpc": "2.0",
             "id": body.get("id") if "body" in locals() else None,
             "error": {"code": -32603, "message": "Internal error", "data": str(e)}
-        }), 500
+        }), 200
 
 @app.route("/habits/<username>/mark_done", methods=["POST"])
 def mark_done(username):
